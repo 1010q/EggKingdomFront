@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import PredictSoySauce from './components/PredictSoySauce';
+import RateSoySauce from './components/RateSoySauce';
+import Home from './components/Home';
+import Profile from './components/Profile';
+import Login from './components/Login';
+import Register from './components/Register';
+import PostDetail from './components/PostDetail';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/material/input/allmodel" element={<PredictSoySauce />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profile/:user_id" element={<Profile />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/add/eachmodel" element={<RateSoySauce />} />
+            <Route path="/" element={<RateSoySauce />} />
+            <Route path="/postdetail/:post_id" element={<PostDetail />} />
+          </Routes>
+        </div>
+    </Router>
   );
-}
+};
 
 export default App;

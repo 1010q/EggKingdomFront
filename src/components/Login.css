@@ -1,0 +1,11 @@
+.login-container {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../assets/background-icon.png'); /* アイコン画像のパス */
+    background-repeat: no-repeat;
+    background-size: cover; /* 背景画像を画面全体に拡大 */
+    background-position: center; /* 中央揃え */
+  }
