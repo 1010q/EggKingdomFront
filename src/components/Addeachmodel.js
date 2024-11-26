@@ -3,30 +3,33 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from './Header'; // ヘッダーコンポーネントをインポート
 
-const Allmodel = () => {
-  const navigate = useNavigate();
+const Addeachmodel = () => {
   const [riceAmount, setRiceAmount] = useState('');
-  const [eggSize, setEggSize] = useState('M'); // 卵のサイズを保持
-  const [eggCount, setEggCount] = useState(''); // 卵の個数を保持
-  const [predictedSoySauce, setPredictedSoySauce] = useState(null);
+  const [eggSize, setEggSize] = useState('M'); // 卵のサイズ
+  const [eggCount, setEggCount] = useState(''); // 卵の個数
+  const [soysauceAmount, setSoySauceAmount] = useState('');
+  const [rating, setRating] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // リダイレクト用
   const token = localStorage.getItem('access_token'); // トークンを取得
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setPredictedSoySauce(null);
 
-    // 卵のサイズに応じて重さを計算
+    // 卵のサイズに応じた重さを計算
     const eggWeightMap = { M: 60, L: 66, LL: 72 };
     const eggWeight = eggWeightMap[eggSize] * parseFloat(eggCount);
 
     try {
+      // エンドポイントに評価データを送信
       const response = await axios.post(
-        'https://eggkingdam-back.onrender.com/material/input/allmodel', // バックエンドのエンドポイント
+        'https://eggkingdam-back.onrender.com/add/eachmodel',
         {
           rice_amount: parseFloat(riceAmount),
-          egg_amount: eggWeight, // 卵の重さを渡す
+          egg_amount: eggWeight, // 計算した卵の重さを送信
+          soysauce_amount: parseFloat(soysauceAmount),
+          rating: parseInt(rating, 10), // 評価を整数に変換
         },
         {
           headers: {
@@ -35,7 +38,10 @@ const Allmodel = () => {
         }
       );
 
-      setPredictedSoySauce(response.data.predicted_soy_sauce);
+      if (response.data.message === '評価を保存しました') {
+        // 成功したらホームにリダイレクト
+        navigate('/');
+      }
     } catch (err) {
       if (err.response && err.response.status === 403) {
         navigate('/login');
@@ -46,29 +52,14 @@ const Allmodel = () => {
     }
   };
 
-  const handleNavigate = () => {
-    if (predictedSoySauce !== null) {
-      navigate('/user/TKG/rating', {
-        state: {
-          riceAmount: parseFloat(riceAmount),
-          eggAmount: parseFloat(eggCount),
-          eggSize,
-          predictedSoySauce,
-        },
-      });
-    } else {
-      setError('予測結果がありません。もう一度試してください。');
-    }
-  };
-
   return (
     <div>
       {/* ヘッダー */}
       <Header />
 
-      {/* 予測フォーム */}
+      {/* 評価フォーム */}
       <div className="container mt-5">
-        <h1 className="mb-4">醤油の量を予測</h1>
+        <h1 className="mb-4">評価を入力</h1>
         <form onSubmit={handleSubmit} className="shadow-lg p-4 mb-5 bg-light rounded">
           <div className="mb-3">
             <label htmlFor="rice" className="form-label">ご飯の量 (g):</label>
@@ -79,7 +70,7 @@ const Allmodel = () => {
               onChange={(e) => setRiceAmount(e.target.value)}
               className="form-control"
               required
-              min="50"
+              min="0"
               step="1"
             />
           </div>
@@ -109,19 +100,34 @@ const Allmodel = () => {
               step="1"
             />
           </div>
-          <button type="submit" className="btn btn-primary">予測する</button>
-        </form>
-
-        {/* 予測結果表示 */}
-        {predictedSoySauce !== null && (
-          <div className="alert alert-success mt-4">
-            <h2>予測結果</h2>
-            <p>
-              醤油の量: <strong>{predictedSoySauce} ml</strong>
-            </p>
-            <button onClick={handleNavigate} className="btn btn-secondary">評価画面へ</button>
+          <div className="mb-3">
+            <label htmlFor="soysauce" className="form-label">醤油の量 (ml):</label>
+            <input
+              type="number"
+              id="soysauce"
+              value={soysauceAmount}
+              onChange={(e) => setSoySauceAmount(e.target.value)}
+              className="form-control"
+              required
+              min="0"
+              step="0.1"
+            />
           </div>
-        )}
+          <div className="mb-3">
+            <label htmlFor="rating" className="form-label">評価 (1〜9):</label>
+            <input
+              type="number"
+              id="rating"
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+              className="form-control"
+              required
+              min="1"
+              max="9"
+            />
+          </div>
+          <button type="submit" className="btn btn-primary">評価を保存</button>
+        </form>
 
         {/* エラーメッセージ */}
         {error && <p className="text-danger">{error}</p>}
@@ -130,4 +136,4 @@ const Allmodel = () => {
   );
 };
 
-export default Allmodel;
+export default Addeachmodel;

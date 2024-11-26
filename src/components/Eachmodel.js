@@ -6,7 +6,8 @@ import Header from './Header'; // ヘッダーコンポーネントをインポ�
 const Eachmodel = () => {
   const navigate = useNavigate();
   const [riceAmount, setRiceAmount] = useState('');
-  const [eggAmount, setEggAmount] = useState('');
+  const [eggSize, setEggSize] = useState('M'); // 卵のサイズを保持
+  const [eggCount, setEggCount] = useState(''); // 卵の個数を保持
   const [predictedSoySauce, setPredictedSoySauce] = useState(null);
   const [error, setError] = useState('');
   const token = localStorage.getItem('access_token'); // トークンを取得
@@ -16,12 +17,16 @@ const Eachmodel = () => {
     setError('');
     setPredictedSoySauce(null);
 
+    // 卵のサイズに応じて重さを計算
+    const eggWeightMap = { M: 60, L: 66, LL: 72 };
+    const eggWeight = eggWeightMap[eggSize] * parseFloat(eggCount);
+
     try {
       const response = await axios.post(
         'https://eggkingdam-back.onrender.com/material/input/eachmodel', // バックエンドのエンドポイント
         {
           rice_amount: parseFloat(riceAmount),
-          egg_amount: parseFloat(eggAmount),
+          egg_amount: eggWeight, // 卵の重さを渡す
         },
         {
           headers: {
@@ -46,7 +51,8 @@ const Eachmodel = () => {
       navigate('/user/TKG/rating', {
         state: {
           riceAmount: parseFloat(riceAmount),
-          eggAmount: parseFloat(eggAmount),
+          eggAmount: parseFloat(eggCount),
+          eggSize,
           predictedSoySauce,
         },
       });
@@ -54,11 +60,11 @@ const Eachmodel = () => {
       setError('予測結果がありません。もう一度試してください。');
     }
   };
- 
+
   return (
     <div>
       {/* ヘッダー */}
-      <Header/>
+      <Header />
 
       {/* 予測フォーム */}
       <div className="container mt-5">
@@ -73,21 +79,34 @@ const Eachmodel = () => {
               onChange={(e) => setRiceAmount(e.target.value)}
               className="form-control"
               required
-              min="0"
-              step="0.1"
+              min="50"
+              step="1"
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="egg" className="form-label">卵の量 (個):</label>
+            <label htmlFor="eggSize" className="form-label">卵のサイズ:</label>
+            <select
+              id="eggSize"
+              value={eggSize}
+              onChange={(e) => setEggSize(e.target.value)}
+              className="form-select"
+            >
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="LL">LL</option>
+            </select>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="eggCount" className="form-label">卵の個数:</label>
             <input
               type="number"
-              id="egg"
-              value={eggAmount}
-              onChange={(e) => setEggAmount(e.target.value)}
+              id="eggCount"
+              value={eggCount}
+              onChange={(e) => setEggCount(e.target.value)}
               className="form-control"
               required
-              min="0"
-              step="0.1"
+              min="1"
+              step="1"
             />
           </div>
           <button type="submit" className="btn btn-primary">予測する</button>

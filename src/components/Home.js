@@ -46,7 +46,7 @@ const Home = () => {
     return <p>データを読み込み中...</p>;
   }
 
-  const { user_id, username, user_image_url, posts, notifications } = data;
+  const { user_id, username, user_image_url, posts, notifications, eachmodel_image, allmodel_image } = data;
 
   return (
     <div>
@@ -54,19 +54,28 @@ const Home = () => {
       <Header/>
 
       <div className="container mt-5">
-        <div className="text-center mb-4">
-          <h1>Welcome, {username}</h1>
-          <img src={user_image_url} alt="Profile" className="rounded-circle" width="100" />
-          {user_id ? (
-            <p>
-              <Link to={`/profile/${user_id}`} className="btn btn-primary mt-3">
-                プロフィールを見る
-              </Link>
-            </p>
-          ) : (
-            <p>プロフィール情報がありません</p>
-          )}
+      <div className="d-flex justify-content-center mb-3">
+        {/* 各ユーザーモデルの画像 */}
+        <div className="mx-2">
+          <h5>各ユーザーモデル画像</h5>
+          <img
+            src={eachmodel_image}
+            alt="Each Model"
+            className="rounded-circle"
+            width="100"
+          />
         </div>
+        {/* 全ユーザーモデルの画像 */}
+        <div className="mx-2">
+          <h5>全ユーザーモデル画像</h5>
+          <img
+            src={allmodel_image}
+            alt="All Model"
+            className="rounded-circle"
+            width="100"
+          />
+        </div>
+      </div>
 
         <div className="row">
           <div className="col-md-6">
@@ -119,7 +128,7 @@ const Home = () => {
             各ユーザーモデルで材料入力
           </Link>
           <Link to="/post/create" className="btn btn-secondary">
-            ポスト
+            卵かけご飯のレシピを投稿
           </Link>
         </div>
 

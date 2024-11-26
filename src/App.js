@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Allmodel from './components/Allmodel';
-import RateSoySauce from './components/RateSoySauce';
+import Addeachmodel from './components/Addeachmodel';
 import Home from './components/Home';
 import Profile from './components/Profile';
 import Login from './components/Login';
@@ -9,6 +9,7 @@ import Register from './components/Register';
 import PostDetail from './components/PostDetail';
 import Eachmodel from './components/Eachmodel';
 import CreatePost from './components/CreatePost';
+import RateSoySauce from './components/RateSoySauce';
 
 const App = () => {
   return (
@@ -22,8 +23,8 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/profile/:user_id" element={<Profile />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/add/eachmodel" element={<RateSoySauce />} />
-            <Route path="/" element={<RateSoySauce />} />
+            <Route path="/add/eachmodel" element={<Addeachmodel />} />
+            <Route path="/user/TKG/rating" element={<RateSoySauce />} />
             <Route path="/postdetail/:post_id" element={<PostDetail />} />
           </Routes>
         </div>
