@@ -61,8 +61,6 @@ const Home = () => {
           <img
             src={eachmodel_image}
             alt="Each Model"
-            className="rounded-circle"
-            width="100"
           />
         </div>
         {/* 全ユーザーモデルの画像 */}
@@ -71,8 +69,6 @@ const Home = () => {
           <img
             src={allmodel_image}
             alt="All Model"
-            className="rounded-circle"
-            width="100"
           />
         </div>
       </div>
