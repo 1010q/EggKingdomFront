@@ -22,7 +22,13 @@ const Login = () => {
 
       console.log('APIレスポンス:', response);
 
-      localStorage.setItem('access_token', response.data.access_token);
+      const { access_token, user_id, username: responseUsername, image_url } = response.data;
+
+      // ローカルストレージにトークンとユーザー情報を保存
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('user_id', user_id);
+      localStorage.setItem('username', responseUsername);
+      localStorage.setItem('user_image', image_url);
 
       navigate('/');
     } catch (err) {

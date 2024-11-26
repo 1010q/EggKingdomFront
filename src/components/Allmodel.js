@@ -3,17 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from './Header'; // ヘッダーコンポーネントをインポート
 
-const PredictSoySauce = () => {
+const Allmodel = () => {
   const navigate = useNavigate();
   const [riceAmount, setRiceAmount] = useState('');
   const [eggAmount, setEggAmount] = useState('');
   const [predictedSoySauce, setPredictedSoySauce] = useState(null);
   const [error, setError] = useState('');
   const token = localStorage.getItem('access_token'); // トークンを取得
-
-  const username = "ユーザー名"; // ユーザー名を適切に取得する
-  const userImageUrl = "ユーザー画像のURL"; // ユーザー画像URLを適切に取得する
-  const user_id = "ユーザーID"; // ユーザーIDを適切に取得する
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,8 +32,12 @@ const PredictSoySauce = () => {
 
       setPredictedSoySauce(response.data.predicted_soy_sauce);
     } catch (err) {
-      setError('予測に失敗しました。入力値を確認してください。');
-      console.error('予測エラー:', err);
+      if (err.response && err.response.status === 403) {
+        navigate('/login');
+      } else {
+        setError('データを取得できませんでした');
+      }
+      console.error('データ取得エラー:', err);
     }
   };
 
@@ -58,7 +58,7 @@ const PredictSoySauce = () => {
   return (
     <div>
       {/* ヘッダー */}
-      <Header username={username} userImageUrl={userImageUrl} user_id={user_id} />
+      <Header/>
 
       {/* 予測フォーム */}
       <div className="container mt-5">
@@ -111,4 +111,4 @@ const PredictSoySauce = () => {
   );
 };
 
-export default PredictSoySauce;
+export default Allmodel;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
@@ -10,6 +10,7 @@ const Home = () => {
   const [error, setError] = useState('');
   const [sortBy, setSortBy] = useState('created_at');
   const token = localStorage.getItem('access_token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +21,11 @@ const Home = () => {
         });
         setData(response.data);
       } catch (err) {
-        setError('データを取得できませんでした');
+        if (err.response && err.response.status === 403) {
+          navigate('/login');
+        } else {
+          setError('データを取得できませんでした');
+        }
         console.error('データ取得エラー:', err);
       }
     };
@@ -29,6 +34,7 @@ const Home = () => {
       fetchData();
     } else {
       setError('ログインが必要です');
+      navigate('/login');
     }
   }, [token, sortBy]);
 
@@ -45,7 +51,7 @@ const Home = () => {
   return (
     <div>
       {/* ヘッダーを追加 */}
-      <Header username={username} userImageUrl={user_image_url} user_id={user_id}/>
+      <Header/>
 
       <div className="container mt-5">
         <div className="text-center mb-4">

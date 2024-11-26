@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header"; // ヘッダーコンポーネントをインポート
 
@@ -10,11 +10,9 @@ const PostDetail = () => {
   const [newComment, setNewComment] = useState("");
   const [error, setError] = useState("");
   const [starCount, setStarCount] = useState(0);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("access_token"); // トークンを取得
-  const username = "ユーザー名"; // 動的に取得する場合はAPIからフェッチしてください
-  const userImageUrl = "https://via.placeholder.com/40"; // 動的に取得する場合はAPIからフェッチ
-  const user_id = 1; // 動的に取得する場合はAPIからフェッチ
 
   // 投稿詳細とコメントを取得
   const fetchPostDetails = async () => {
@@ -32,10 +30,14 @@ const PostDetail = () => {
       setComments(response.data.comments);
       setStarCount(response.data.post.star_count);
     } catch (err) {
-      setError("投稿情報を取得できませんでした。");
-      console.error("エラー:", err);
-    }
-  };
+        if (err.response && err.response.status === 403) {
+          navigate('/login');
+        } else {
+          setError('データを取得できませんでした');
+        }
+        console.error('データ取得エラー:', err);
+      }
+    };
 
   // コメントを追加
   const handleAddComment = async (e) => {
@@ -55,7 +57,7 @@ const PostDetail = () => {
           },
         }
       );
-      setComments([...comments, response.data.new_comment]); // 新しいコメントを即時追加
+      setComments([...comments, response.data.comment]); // 新しいコメントを即時追加
       setNewComment("");
     } catch (err) {
       setError("コメントの追加に失敗しました。");
@@ -93,11 +95,7 @@ const PostDetail = () => {
   return (
     <div>
       {/* ヘッダー */}
-      <Header
-        username={username}
-        userImageUrl={userImageUrl}
-        user_id={user_id}
-      />
+      <Header/>
 
       {/* 投稿詳細 */}
       <div className="container my-4">

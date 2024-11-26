@@ -22,8 +22,12 @@ const Profile = () => {
         setData(response.data);
         setUsername(response.data.username);
       } catch (err) {
-        setError('プロフィールを取得できませんでした');
-        console.error('プロフィール取得エラー:', err);
+        if (err.response && err.response.status === 403) {
+          navigate('/login');
+        } else {
+          setError('データを取得できませんでした');
+        }
+        console.error('データ取得エラー:', err);
       }
     };
 
@@ -99,11 +103,7 @@ const Profile = () => {
 
   return (
     <div>
-      <Header 
-        username={data.username || 'ゲスト'} 
-        userImageUrl={data.user_image_url || '/path/to/default-image.jpg'}
-        user_id={userId}
-      />
+      <Header/>
       <div className="container mt-4">
         <h1 className="text-center mb-4">プロフィール</h1>
 

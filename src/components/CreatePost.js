@@ -12,10 +12,6 @@ const CreatePost = () => {
   const token = localStorage.getItem('access_token'); // トークンを取得
   const navigate = useNavigate(); // useNavigateを初期化
 
-  const username = "ユーザー名"; // ユーザー名を適切に取得する
-  const userImageUrl = "ユーザー画像のURL"; // ユーザー画像URLを適切に取得する
-  const user_id = "ユーザーID"; // ユーザーIDを適切に取得する
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSuccessMessage('');
@@ -50,16 +46,19 @@ const CreatePost = () => {
       navigate(`/postdetail/${response.data.post_id}`);
 
     } catch (err) {
-      // エラー時の処理
-      setErrorMessage('投稿の作成に失敗しました。入力内容を確認してください。');
-      console.error('エラー:', err);
+      if (err.response && err.response.status === 403) {
+        navigate('/login');
+      } else {
+        setError('データを取得できませんでした');
+      }
+      console.error('データ取得エラー:', err);
     }
   };
 
   return (
     <div>
       {/* ヘッダー */}
-      <Header username={username} userImageUrl={userImageUrl} user_id={user_id} />
+      <Header/>
 
       {/* 投稿作成フォーム */}
       <div className="container mt-4">

@@ -2,7 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import appIcon from '../assets/app-icon.png'; // アプリアイコンの画像
 
-const Header = ({ username, userImageUrl, user_id }) => {
+const Header = () => {
+  // ローカルストレージから情報を取得
+  const user_id = localStorage.getItem('user_id');
+  const username = localStorage.getItem('username');
+  const userImageUrl = localStorage.getItem('user_image');
   const token = localStorage.getItem('access_token');
   return (
     <header className="bg-warning py-3">
