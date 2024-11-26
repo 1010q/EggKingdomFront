@@ -4,7 +4,6 @@ import axios from 'axios';
 import Header from './Header';
 
 const Profile = () => {
-  const { userId } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState(null); // データ全体を格納
   const [error, setError] = useState('');
@@ -14,17 +13,19 @@ const Profile = () => {
   const [age, setAge] = useState(''); // 年齢
   const [message, setMessage] = useState('');
   const token = localStorage.getItem('access_token');
+  const userId = localStorage.getItem('user_id');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://eggkingdam-back.onrender.com/profile/${userId}`, {
+        const response = await axios.get(
+          `https://eggkingdam-back.onrender.com/profile/${userId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setData(response.data);
         setUsername(response.data.username);
-        setIsMan(response.data.is_man || true);
-        setAge(response.data.age || '');
+        setIsMan(response.data.is_man ?? null);
+        setAge(response.data.age ?? '');
       } catch (err) {
         if (err.response && err.response.status === 403) {
           navigate('/login');
@@ -92,7 +93,7 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        'http://127.0.0.1:8000/logout',
+        'https://eggkingdam-back.onrender.com/logout',
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -186,6 +187,16 @@ const Profile = () => {
                     className="ms-4"
                   />
                   <label htmlFor="is_man_false" className="ms-2">女性</label>
+                  <input
+                    type="radio"
+                    id="is_man_null"
+                    name="is_man"
+                    value="null"
+                    checked={isMan === null}
+                    onChange={() => setIsMan(null)}
+                    className="ms-4"
+                  />
+                  <label htmlFor="is_man_null" className="ms-2">選択しない</label>
                 </div>
               </div>
               <div className="mb-3">
@@ -196,7 +207,6 @@ const Profile = () => {
                   className="form-control"
                   value={age}
                   onChange={handleAgeChange}
-                  required
                 />
               </div>
               <button type="submit" className="btn btn-primary">更新</button>
