@@ -1,4 +1,3 @@
-// src/components/Register.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -10,6 +9,8 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isMan, setIsMan] = useState(null); // 初期値をnull
+  const [age, setAge] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
@@ -22,14 +23,20 @@ const Register = () => {
       return;
     }
 
-    const signup = { username, email, password };
+    const signup = {
+      username,
+      email,
+      password,
+      is_man: isMan,
+      age: age ? parseInt(age, 10) : null, // 空欄の場合はnull
+    };
 
     try {
       const response = await axios.post('https://eggkingdam-back.onrender.com/register', signup);
       console.log('API Response:', response);
 
       const { access_token, user_id, username: responseUsername, image_url } = response.data;
- 
+
       // ローカルストレージにトークンとユーザー情報を保存
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('user_id', user_id);
@@ -87,6 +94,51 @@ const Register = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">性別</label>
+            <div>
+              <label className="form-check-label me-3">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  value="true"
+                  checked={isMan === true}
+                  onChange={() => setIsMan(true)}
+                />
+                男性
+              </label>
+              <label className="form-check-label me-3">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  value="false"
+                  checked={isMan === false}
+                  onChange={() => setIsMan(false)}
+                />
+                女性
+              </label>
+              <label className="form-check-label">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  value="null"
+                  checked={isMan === null}
+                  onChange={() => setIsMan(null)}
+                />
+                無回答
+              </label>
+            </div>
+          </div>
+          <div className="mb-3">
+            <label className="form-label">年齢</label>
+            <input
+              type="number"
+              className="form-control"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              placeholder="任意入力"
             />
           </div>
           {error && <p className="text-danger text-center">{error}</p>}

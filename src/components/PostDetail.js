@@ -102,7 +102,7 @@ const PostDetail = () => {
         <div className="card mb-4">
           <div className="card-body">
             <h1 className="card-title">{post.title}</h1>
-            <p className="card-text">{post.content}</p>
+            <p className="card-text">{post.description}</p>
  
             {/* 投稿の画像を表示 */}
             {post.image_url && (

@@ -10,6 +10,8 @@ const Profile = () => {
   const [error, setError] = useState('');
   const [username, setUsername] = useState('');
   const [image, setImage] = useState(null);
+  const [isMan, setIsMan] = useState(true); // 性別
+  const [age, setAge] = useState(''); // 年齢
   const [message, setMessage] = useState('');
   const token = localStorage.getItem('access_token');
 
@@ -21,6 +23,8 @@ const Profile = () => {
         });
         setData(response.data);
         setUsername(response.data.username);
+        setIsMan(response.data.is_man || true);
+        setAge(response.data.age || '');
       } catch (err) {
         if (err.response && err.response.status === 403) {
           navigate('/login');
@@ -46,10 +50,20 @@ const Profile = () => {
     setUsername(event.target.value);
   };
 
+  const handleIsManChange = (event) => {
+    setIsMan(event.target.value === 'true'); // ラジオボタン用
+  };
+
+  const handleAgeChange = (event) => {
+    setAge(event.target.value);
+  };
+
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('username', username);
+    formData.append('is_man', isMan); // 性別
+    formData.append('age', age); // 年齢
     if (image) {
       formData.append('user_image', image);
     }
@@ -62,7 +76,13 @@ const Profile = () => {
         },
       });
       setMessage(response.data.message);
-      setData({ ...data, username, image_url: response.data.updated_data.image_url || data.image_url });
+      setData({
+        ...data,
+        username,
+        is_man: isMan,
+        age,
+        image_url: response.data.updated_data.image_url || data.image_url,
+      });
     } catch (err) {
       setError('プロフィール更新に失敗しました');
       console.error('プロフィール更新エラー:', err);
@@ -87,7 +107,6 @@ const Profile = () => {
     }
   };
 
-  // データが未ロードまたはエラー時の処理
   if (!data) {
     return (
       <div className="container mt-4">
@@ -103,10 +122,10 @@ const Profile = () => {
 
   return (
     <div>
-      <Header/>
+      <Header />
       <div className="container mt-4">
         <h1 className="text-center mb-4">プロフィール</h1>
- 
+
         {message && <div className="alert alert-success">{message}</div>}
 
         <div className="card shadow p-4">
@@ -120,33 +139,6 @@ const Profile = () => {
               height="150"
             />
             <p className="mt-3">スターの合計数: <strong>{data.star_count}</strong></p>
-          </div>
-
-          <div className="mb-4">
-            <h3>投稿一覧</h3>
-            <ul className="list-group">
-              {data.posts.map((post) => (
-                <li className="list-group-item" key={post.id}>
-                  <h5>{post.title}</h5>
-                  <p>{post.content}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="mb-4">
-            <h3>スターした投稿</h3>
-            <ul className="list-group">
-              {data.starred_posts.length > 0 ? (
-                data.starred_posts.map((post) => (
-                  <li className="list-group-item" key={post.post_id}>
-                    <p>{post.post_id}</p>
-                  </li>
-                ))
-              ) : (
-                <p>スターした投稿はありません</p>
-              )}
-            </ul>
           </div>
 
           <div className="mb-4">
@@ -170,6 +162,41 @@ const Profile = () => {
                   id="image"
                   className="form-control"
                   onChange={handleImageChange}
+                />
+              </div>
+              <div className="mb-3">
+                <label className="form-label">性別:</label>
+                <div>
+                  <input
+                    type="radio"
+                    id="is_man_true"
+                    name="is_man"
+                    value="true"
+                    checked={isMan === true}
+                    onChange={handleIsManChange}
+                  />
+                  <label htmlFor="is_man_true" className="ms-2">男性</label>
+                  <input
+                    type="radio"
+                    id="is_man_false"
+                    name="is_man"
+                    value="false"
+                    checked={isMan === false}
+                    onChange={handleIsManChange}
+                    className="ms-4"
+                  />
+                  <label htmlFor="is_man_false" className="ms-2">女性</label>
+                </div>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="age" className="form-label">年齢:</label>
+                <input
+                  type="number"
+                  id="age"
+                  className="form-control"
+                  value={age}
+                  onChange={handleAgeChange}
+                  required
                 />
               </div>
               <button type="submit" className="btn btn-primary">更新</button>
