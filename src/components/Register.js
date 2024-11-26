@@ -29,7 +29,7 @@ const Register = () => {
       console.log('API Response:', response);
 
       const { access_token, user_id, username: responseUsername, image_url } = response.data;
-
+ 
       // ローカルストレージにトークンとユーザー情報を保存
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('user_id', user_id);

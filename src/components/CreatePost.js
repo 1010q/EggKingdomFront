@@ -16,7 +16,7 @@ const CreatePost = () => {
     e.preventDefault();
     setSuccessMessage('');
     setErrorMessage('');
-
+ 
     // FormDataを作成
     const formData = new FormData();
     formData.append('title', title);

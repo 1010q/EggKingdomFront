@@ -29,7 +29,7 @@ const Home = () => {
         console.error('データ取得エラー:', err);
       }
     };
-
+ 
     if (token) {
       fetchData();
     } else {

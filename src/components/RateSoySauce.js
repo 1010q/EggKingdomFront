@@ -51,7 +51,7 @@ const RateSoySauce = () => {
     <div>
       {/* ヘッダー */}
       <Header/>
-
+ 
       {/* 評価フォーム */}
       <div className="container mt-5">
         <h1 className="mb-4">評価を入力</h1>
