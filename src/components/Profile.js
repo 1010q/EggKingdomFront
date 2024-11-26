@@ -106,7 +106,7 @@ const Profile = () => {
       <Header/>
       <div className="container mt-4">
         <h1 className="text-center mb-4">プロフィール</h1>
-
+ 
         {message && <div className="alert alert-success">{message}</div>}
 
         <div className="card shadow p-4">

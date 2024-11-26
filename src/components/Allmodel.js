@@ -54,7 +54,7 @@ const Allmodel = () => {
       setError('予測結果がありません。もう一度試してください。');
     }
   };
-
+ 
   return (
     <div>
       {/* ヘッダー */}

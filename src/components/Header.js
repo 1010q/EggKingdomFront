@@ -24,7 +24,7 @@ const Header = () => {
             <h1 className="h3 text-dark mb-0">えっぐきんぐだむ</h1>
           </Link>
         </div>
-
+ 
         {/* 右側: ユーザー名とアイコン */}
         <div className="d-flex align-items-center">
           <span className="me-2 text-dark fw-bold">{username}</span>
