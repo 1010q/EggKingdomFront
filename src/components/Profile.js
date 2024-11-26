@@ -100,7 +100,7 @@ const Profile = () => {
       </div>
     );
   }
- 
+
   return (
     <div>
       <Header/>

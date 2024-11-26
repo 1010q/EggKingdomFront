@@ -36,7 +36,7 @@ const Login = () => {
       setError('ログインに失敗しました');
     }
   };
- 
+
   return (
     <div className="login-container">
       <div className="card shadow p-4" style={{ width: '400px', zIndex: 2 }}>
