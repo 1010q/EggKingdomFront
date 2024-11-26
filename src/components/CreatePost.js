@@ -11,6 +11,7 @@ const CreatePost = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const token = localStorage.getItem('access_token'); // トークンを取得
   const navigate = useNavigate(); // useNavigateを初期化
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();

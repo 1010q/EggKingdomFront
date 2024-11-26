@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import PostDetail from './components/PostDetail';
 import Eachmodel from './components/Eachmodel';
+import CreatePost from './components/CreatePost';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
       <div>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/post/create" element={<CreatePost />} />
             <Route path="/material/input/allmodel" element={<Allmodel />} />
             <Route path="/material/input/eachmodel" element={<Eachmodel />} />
             <Route path="/login" element={<Login />} />
