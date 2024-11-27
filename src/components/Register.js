@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css'; // CSSファイルをインポート
@@ -147,6 +147,9 @@ const Register = () => {
             <button type="submit" className="btn btn-primary">アカウント登録</button>
           </div>
         </form>
+        <p className="text-center mt-3">
+          アカウントをお持の方は <Link to='/login'>こちら</Link> からログインできます。
+        </p>
       </div>
     </div>
   );

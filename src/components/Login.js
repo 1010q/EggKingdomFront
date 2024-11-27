@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios'; // axiosをインポート
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSSをインポート
 import './Login.css'; // CSSファイルをインポート
@@ -69,6 +69,9 @@ const Login = () => {
             <button type="submit" className="btn btn-primary">ログイン</button>
           </div>
         </form>
+        <p className="text-center mt-3">
+          アカウントをお持ちでない方は <Link to='/register'>こちら</Link> から作成できます。
+        </p>
       </div>
     </div>
   );
