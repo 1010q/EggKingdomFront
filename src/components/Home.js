@@ -57,7 +57,7 @@ const Home = () => {
       <div className="d-flex justify-content-center mb-3">
         {/* 各ユーザーモデルの画像 */}
         <div className="mx-2">
-          <h5>各ユーザーモデル画像</h5>
+          <h5>{ username }モデル画像</h5>
           <img
             src={eachmodel_image}
             alt="Each Model"
@@ -115,13 +115,13 @@ const Home = () => {
 
         <div className="text-center mt-5">
           <Link to="/add/eachmodel" className="btn btn-secondary me-2">
-            各ユーザーモデルにデータを追加
+          { username }モデルにデータを追加
           </Link>
           <Link to="/material/input/allmodel" className="btn btn-secondary me-2">
             全ユーザーモデルで材料入力
           </Link>
           <Link to="/material/input/eachmodel" className="btn btn-secondary me-2">
-            各ユーザーモデルで材料入力
+            { username }モデルで材料入力
           </Link>
           <Link to="/post/create" className="btn btn-secondary">
             卵かけご飯のレシピを投稿
