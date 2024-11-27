@@ -62,7 +62,7 @@ const Home = () => {
             src={eachmodel_image}
             alt="Each Model"
             className="img-fluid rounded"
-            style={{ maxWidth: "200px", height: "auto" }}
+            style={{ maxWidth: "auto", height: "auto" }}
           />
         </div>
         {/* 全ユーザーモデルの画像 */}
@@ -72,24 +72,26 @@ const Home = () => {
             src={allmodel_image}
             alt="All Model"
             className="img-fluid rounded"
-            style={{ maxWidth: "200px", height: "auto" }}
+            style={{ maxWidth: "auto", height: "auto" }}
           />
         </div>
       </div>
       <div className="text-center mt-5">
-          <Link to="/add/eachmodel" className="btn btn-secondary me-2">
-          { username }モデルにデータを追加
+        <div className="d-grid gap-3">
+          <Link to="/add/eachmodel" className="btn btn-secondary">
+            {username}モデルにデータを追加
           </Link>
-          <Link to="/material/input/allmodel" className="btn btn-secondary me-2">
+          <Link to="/material/input/allmodel" className="btn btn-secondary">
             全ユーザーモデルで材料入力
           </Link>
-          <Link to="/material/input/eachmodel" className="btn btn-secondary me-2">
-            { username }モデルで材料入力
+          <Link to="/material/input/eachmodel" className="btn btn-secondary">
+            {username}モデルで材料入力
           </Link>
           <Link to="/post/create" className="btn btn-secondary">
             卵かけご飯のレシピを投稿
           </Link>
         </div>
+      </div>
 
         <div className="row">
         <div className="col-md-6">
