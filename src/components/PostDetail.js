@@ -92,6 +92,26 @@ const PostDetail = () => {
     return <p>投稿情報を読み込み中...</p>;
   }
 
+  const handleDeletePost = async () => {
+    if (!window.confirm("この投稿を削除しますか？")) return;
+
+    try {
+      await axios.post(
+        `https://eggkingdam-back.onrender.com/postdetail/${post_id}`,
+        { action: "post_delete" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      navigate("/"); // 投稿削除後にトップページへリダイレクト
+    } catch (err) {
+      setError("投稿の削除に失敗しました。");
+      console.error("削除エラー:", err);
+    }
+  };
+
   return (
     <div>
       {/* ヘッダー */}
@@ -122,6 +142,15 @@ const PostDetail = () => {
             >
               {starCount > 0 ? "スターを外す" : "スターをつける"}
             </button>
+            {/* 削除ボタン */}
+            {post.user_id === localStorage.getItem("user_id") && (
+              <button
+                className="btn btn-danger ms-3"
+                onClick={handleDeletePost}
+              >
+                投稿を削除
+              </button>
+            )}
           </div>
         </div>
 

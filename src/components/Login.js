@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios'; // axiosをインポート
 import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSSをインポート
 import './Login.css'; // CSSファイルをインポート
+import '../styles/global.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -38,10 +39,10 @@ const Login = () => {
   };
  
   return (
-    <div className="login-container">
-      <div className="card shadow p-4" style={{ width: '400px', zIndex: 2 }}>
+    <div className="login-container bg-light">
+      <div className="card shadow-lg p-5" style={{ width: '400px', maxWidth: '90%' }}>
         <h2 className="text-center mb-4">ログイン</h2>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} className="needs-validation" noValidate>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">メールアドレス:</label>
             <input
@@ -51,7 +52,11 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
             />
+            <div className="invalid-feedback">
+              有効なメールアドレスを入力してください。
+            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="password" className="form-label">パスワード:</label>
@@ -62,11 +67,15 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength="8"
             />
+            <div className="invalid-feedback">
+              パスワードは8文字以上で入力してください。
+            </div>
           </div>
           {error && <p className="text-danger text-center">{error}</p>}
           <div className="d-grid">
-            <button type="submit" className="btn btn-primary">ログイン</button>
+            <button type="submit" className="btn btn-primary btn-lg btn-block w-100">ログイン</button>
           </div>
         </form>
         <p className="text-center mt-3">
@@ -78,3 +87,22 @@ const Login = () => {
 };
 
 export default Login;
+<script>
+{`
+  (function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+`}
+</script>
+
