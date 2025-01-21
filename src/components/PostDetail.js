@@ -27,7 +27,7 @@ const PostDetail = () => {
         }
       );
       setPost(response.data.post);
-      setComments(response.data.comments);
+      setComments(response.data.comments); 
       setStarCount(response.data.post.star_count);
     } catch (err) {
         if (err.response && err.response.status === 403) {

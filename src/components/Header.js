@@ -36,7 +36,7 @@ const Header = () => {
               height="40"
               className="rounded-circle"
             />
-          </Link>
+          </Link> 
         </div>
       </div>
     </header>

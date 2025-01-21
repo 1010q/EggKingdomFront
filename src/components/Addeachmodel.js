@@ -124,6 +124,7 @@ const Addeachmodel = () => {
               required
               min="1"
               max="9"
+              placeholder='1:味が薄い〜9:味が濃い'
             />
           </div>
           <button type="submit" className="btn btn-primary">評価を保存</button>

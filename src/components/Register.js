@@ -84,6 +84,7 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              placeholder="6文字以上"
             />
           </div>
           <div className="mb-3">
